@@ -8,13 +8,12 @@ import { LiveMatchHero } from "@/components/organism/LiveMatchHero";
 export default function Home() {
   return (
     <main>
-        <div>
+        <div className="mb-8">
+          <span className="text-[60px] font-bold text-white mb-4 block">Live Matches</span>
           <LiveMatchHero />
-          <Button>Click me</Button>
-
-          <Button className="bg-[#10b981] hover:bg-[#059669] text-white rounded-md">
-        Live Match
-      </Button>
+        </div>
+        <div className="mb-8">
+          <span className="text-[60px] font-bold text-white mb-4 block">Fixtures</span>
         </div>
     </main>
   )

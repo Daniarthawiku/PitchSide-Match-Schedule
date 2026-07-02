@@ -1,7 +1,6 @@
 export function LiveMatchHero() {
   return (
-    <div className="relative w-full rounded-4xl overflow-hidden bg-gradient-to-r from-[#73204C] via-[#C75D52] to-[#E5B250] 
-    p-6 md:p-8 mb-8 shadow-2xl">
+    <div className="relative w-full rounded-4xl overflow-hidden bg-gradient-to-r from-[#73204C] via-[#C75D52] to-[#E5B250] md:p-8 shadow-2xl">
       <div className="flex justify-between items-center mb-24">
         <div className="bg-green-500 animate-pulse text-white text-[24px] font-bold px-8 py-2 rounded-2xl ">
           • LIVE 75'
