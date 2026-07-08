@@ -1,32 +1,46 @@
+import Link from "next/link";
 import { TeamBadge } from "../atoms/TeamBadge";
 
-interface MatchCardProps {
+export interface MatchData {
+  id: string;
   time: string;
   round: string;
   stadium: string;
-  homeTeam: { name: string; flagUrl: string; score?: number };
-  awayTeam: { name: string; flagUrl: string; score?: number };
+  status: "finished" | "upcoming" | "live";
+  homeTeam: { name: string; flagUrl: string; score: number | null };
+  awayTeam: { name: string; flagUrl: string; score: number | null };
 }
 
-export function MatchCard({ time, round, stadium, homeTeam, awayTeam }: MatchCardProps) {
+export function MatchCard({ match }: { match: MatchData }) {
   return (
-    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 hover:bg-white/10 transition duration-300">
-      <div className="flex justify-between items-center text-xs text-gray-400 mb-4 pb-2 border-b border-white/10">
-        <span>{time} WIB</span>
-        <span>{round}</span>
-        <span>{stadium}</span>
-      </div>
-      
-      <div className="space-y-3">
-        <div className="flex justify-between items-center">
-          <TeamBadge name={homeTeam.name} flagUrl={homeTeam.flagUrl} />
-          <span className="font-bold text-lg">{homeTeam.score ?? '-'}</span>
+    <Link href={`/match/${match.id}`} className="block group">
+      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5 transition-all duration-300 cursor-pointer group-hover:bg-white/10 group-hover:border-white/30 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+        
+        {/* Header Info */}
+        <div className="flex justify-between items-center text-[11px] text-[#F5F2FF] mb-5 pb-3 border-b border-white/10 uppercase tracking-wider">
+          <span>{match.time} WIB</span>
+          <span>{match.round}</span>
+          <span className="truncate ml-2 text-right">{match.stadium}</span>
         </div>
-        <div className="flex justify-between items-center">
-          <TeamBadge name={awayTeam.name} flagUrl={awayTeam.flagUrl} />
-          <span className="font-bold text-lg">{awayTeam.score ?? '-'}</span>
+        
+        {/* Daftar Tim & Skor */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <TeamBadge name={match.homeTeam.name} flagUrl={match.homeTeam.flagUrl} />
+            <span className="font-bold text-lg text-white">
+              {match.status === "upcoming" ? "--" : (match.homeTeam.score ?? '-')}
+            </span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <TeamBadge name={match.awayTeam.name} flagUrl={match.awayTeam.flagUrl} />
+            <span className="font-bold text-lg text-white">
+              {match.status === "upcoming" ? "--" : (match.awayTeam.score ?? '-')}
+            </span>
+          </div>
         </div>
+
       </div>
-    </div>
+    </Link>
   );
 }

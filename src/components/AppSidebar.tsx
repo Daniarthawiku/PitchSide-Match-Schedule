@@ -19,7 +19,7 @@ export function AppSidebar() {
   return (
     <aside className="w-60 p-6 hidden md:block">
       {/* Floating Glass Container */}
-      <nav className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 shadow-2xl ">
+      <nav className=" bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 shadow-2xl">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;

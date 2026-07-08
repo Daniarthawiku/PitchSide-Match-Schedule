@@ -28,7 +28,7 @@ export default function RootLayout({
           {/* Top Header */}
           <header className="flex justify-between items-center bg-[#0a0f18]/50 
           backdrop-blur-sm border-b border-white/10 z-10 px-24 py-2">
-            <h1 className="text-[36px] font-bold tracking-widest uppercase text-[#B9C7E4]">
+            <h1 className="text-[36px] font-bold tracking-widest uppercase text-[#F5F2FF]">
               PITCHSIDE
             </h1>
             <div className="flex gap-8">
