@@ -29,7 +29,7 @@ export default function RootLayout({
           {/* Top Header */}
           <header className="flex justify-between items-center bg-[#0a0f18]/50 
           backdrop-blur-sm border-b border-white/10 z-10 px-24 py-2">
-            <h1 className="text-[36px] font-bold tracking-widest uppercase text-[#F5F2FF]">
+            <h1 className="text-[36px] font-bold tracking-widest uppercase text-[#39ff14]">
               PITCHSIDE
             </h1>
             <div className="flex gap-8">
@@ -39,7 +39,7 @@ export default function RootLayout({
           </header>
 
           {/* Main Layout Area */}
-          <div className="flex flex-1 overflow-hidden px-20 ">
+          <div className="flex flex-1 overflow-hidden">
             {/* Floating Left Sidebar */}
             <SidebarProvider>
               <AppSidebar />

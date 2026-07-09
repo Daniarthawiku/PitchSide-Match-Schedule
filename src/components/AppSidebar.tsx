@@ -3,15 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Home, Trophy, BarChart2, Newspaper, Settings } from "lucide-react";
+import { Home, Trophy, Newspaper} from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
+  { name: "News", href: "/News", icon: Newspaper },
   { name: "Matches", href: "/matches", icon: Trophy },
-  { name: "Stats", href: "/stats", icon: BarChart2 },
-  { name: "Favorite", href: "/favorite", icon: Newspaper },
-  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -27,7 +25,7 @@ export function AppSidebar() {
   }, [pathname, setOpen]);
 
   return (
-    <aside className={`w-64 p-6 hidden md:block transition-all duration-300 ${state === "collapsed" ? "w-0 p-0 overflow-hidden opacity-0" : "opacity-100"}`}>
+    <aside className= {`pl-20 w-64 p-6 hidden md:block transition-all duration-300 ${state === "collapsed" ? "w-0 p-0 overflow-hidden opacity-0" : "opacity-100"}`}>
       <nav className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 
       flex flex-col gap-2 shadow-2xl min-w-[200px]">
         {navItems.map((item) => {

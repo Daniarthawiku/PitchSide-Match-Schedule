@@ -54,7 +54,7 @@ export default function Home() {
   });
 
   return (
-    <main>
+    <main className="pl-10 pr-20">
       <div className="w-full mb-4">
         <span className="text-[24px] font-bold text-[#F5F2FF] mb-4 block tracking-wide">
           Live Matches
