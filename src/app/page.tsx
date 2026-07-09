@@ -88,7 +88,7 @@ export default function Home() {
         ) : (
           // Empty State
           <div className="w-full p-10 text-center border border-dashed border-white/20 rounded-2xl text-white">
-            Couldn't find any matches for the selected round. Please try a different round.
+            Couldnt find any matches for the selected round. Please try a different round.
           </div>
         )}
       </div>

@@ -19,15 +19,15 @@ const MOCK_MATCH_DETAIL = {
     coach: "Carlo Ancelotti",
     lineup: [
       { num: 12, name: "Ederson", pos: "(GK)" },
-      { num: 14, name: "Eder Militao", pos: "" },
-      { num: 17, name: "Bruno Guimaraes", pos: "" },
-      { num: 21, name: "Gabriel Martinelli", pos: "" },
-      { num: 9, name: "Richarlison", pos: "" },
+      { num: 14, name: "Eder Militao", pos: "CB" },
+      { num: 17, name: "Bruno Guimaraes", pos: "CB" },
+      { num: 21, name: "Gabriel Martinelli", pos: "CB" },
+      { num: 9, name: "Richarlison", pos: "ST" },
     ],
     subs: [
       { num: 1, name: "Alisson", pos: "(GK)" },
-      { num: 22, name: "Antony", pos: "" },
-      { num: 10, name: "Neymar Jr", pos: "" },
+      { num: 22, name: "Antony", pos: "LW" },
+      { num: 10, name: "Neymar Jr", pos: "ST" },
     ]
   },
   awayTeam: { 
@@ -58,7 +58,7 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
 
   const getBgGradient = (status: string) => {
     if (status === "live") {
-      return "from-[#73204C] via-[#C75D52] to-[#E5B250]"; 
+      return "from-[#1E153A] via-[#EC577D] to-[#FFA400]"; 
     } else if (status === "upcoming") {
       return "from-[#0A2E5C] via-[#2D7F7D] to-[#7FB881]"; 
     } else if (status === "finished") {

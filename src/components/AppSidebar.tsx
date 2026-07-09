@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { Home, Trophy, BarChart2, Newspaper, Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
@@ -14,12 +15,21 @@ const navItems = [
 ];
 
 export function AppSidebar() {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
+  const { setOpen, state } = useSidebar();
+
+  useEffect(() => {
+    if (pathname.includes("/match/")) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [pathname, setOpen]);
 
   return (
-    <aside className="w-60 p-6 hidden md:block">
-      {/* Floating Glass Container */}
-      <nav className=" bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 shadow-2xl">
+    <aside className={`w-64 p-6 hidden md:block transition-all duration-300 ${state === "collapsed" ? "w-0 p-0 overflow-hidden opacity-0" : "opacity-100"}`}>
+      <nav className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 
+      flex flex-col gap-2 shadow-2xl min-w-[200px]">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -28,19 +38,18 @@ export function AppSidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-2 px-4 py-3 rounded-2xl transition-all duration-300 font-medium ${
+              className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-medium ${
                 isActive
-                  ? "bg-[#39ff14] text-black shadow-[0_0_20px_rgba(57,255,20,0.3)]" 
-                  : "text-gray-300 hover:bg-white/10 hover:text-white "
+                  ? "bg-[#39ff14] text-black shadow-[0_0_20px_rgba(57,255,20,0.3)]"
+                  : "text-gray-300 hover:bg-white/10 hover:text-white"
               }`}
             >
-              <Icon className={`w-4 h-4 ${isActive ? "text-black" : "text-gray-400"}`} />
-              <span className="text-[12px]">{item.name}</span>
+              <Icon className={`w-5 h-5 ${isActive ? "text-black" : "text-gray-400"}`} />
+              <span className="text-[15px]">{item.name}</span>
             </Link>
           );
         })}
       </nav>
-                  
     </aside>
   );
 }

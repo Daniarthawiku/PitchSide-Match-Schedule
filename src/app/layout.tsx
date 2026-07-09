@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Calendar, Bell } from "lucide-react";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 
 const ibmSans = IBM_Plex_Sans({
@@ -40,7 +41,9 @@ export default function RootLayout({
           {/* Main Layout Area */}
           <div className="flex flex-1 overflow-hidden px-20 ">
             {/* Floating Left Sidebar */}
-            <AppSidebar />
+            <SidebarProvider>
+              <AppSidebar />
+            </SidebarProvider>
 
             {/* Dynamic Content */}
             <main className="flex-1 overflow-y-auto md:p-4">
