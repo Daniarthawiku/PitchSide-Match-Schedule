@@ -30,14 +30,14 @@ export function MatchCard({ match }: { match: MatchData }) {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <TeamBadge name={match.homeTeam.name} flagUrl={match.homeTeam.flagUrl} />
-            <span className="font-bold text-lg text-white">
+            <span className="font-bold text-lg text-[#39ff14]">
               {match.status === "upcoming" ? "--" : (match.homeTeam.score ?? '-')}
             </span>
           </div>
           
           <div className="flex justify-between items-center">
             <TeamBadge name={match.awayTeam.name} flagUrl={match.awayTeam.flagUrl} />
-            <span className="font-bold text-lg text-white">
+            <span className="font-bold text-lg text-[#39ff14]">
               {match.status === "upcoming" ? "--" : (match.awayTeam.score ?? '-')}
             </span>
           </div>

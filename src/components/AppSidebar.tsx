@@ -42,7 +42,7 @@ export function AppSidebar() {
               }`}
             >
               <Icon className={`w-5 h-5 ${isActive ? "text-black" : "text-gray-400"}`} />
-              <span className="text-[15px]">{item.name}</span>
+              <span className="text-[16px]">{item.name}</span>
             </Link>
           );
         })}

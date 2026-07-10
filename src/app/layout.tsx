@@ -6,7 +6,6 @@ import { Calendar, Bell } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Link from "next/link";
 
-
 const ibmSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
   subsets: ["latin"],
@@ -30,9 +29,11 @@ export default function RootLayout({
           {/* Top Header */}
           <header className="flex justify-between items-center bg-[#0a0f18]/50 
           backdrop-blur-sm border-b border-white/10 z-10 px-24 py-2">
-            <h1 className="text-[36px] font-bold tracking-widest uppercase text-[#39ff14]">
+            <Link href={"/"}> 
+            <h1 className="text-[36px] font-bold tracking-widest uppercase text-[#39ff14] cursor-pointer transition">
               PITCHSIDE
             </h1>
+            </Link>
             <div className="flex gap-8">
               <Calendar className="size-[24px] text-gray-400 hover:text-white cursor-pointer transition"/>
               <Bell className="size-[24px] text-gray-400 hover:text-white cursor-pointer transition" />

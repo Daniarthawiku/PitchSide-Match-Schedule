@@ -19,13 +19,11 @@ const ROUND_MAPPING: Record<string, string> = {
 };
 
 const ROUND_OPTIONS = [
-  // Tambahkan opsi default "All Rounds" di index 0
   { value: "all-rounds", label: "ALL ROUNDS" },
-  
-  // Mapping sisa data dari ROUND_MAPPING
+
   ...Object.entries(ROUND_MAPPING).map(([key, val]) => ({
     value: key,
-    label: val.toUpperCase(), // Mengubah ke huruf kapital agar seragam dengan "ALL ROUNDS"
+    label: val.toUpperCase(),
   })),
 ];
 
@@ -33,14 +31,10 @@ export default function Home() {
   const [selectedRound, setSelectedRound] = useState<string>("all-rounds");
   const { fixtures, isLoading, error } = useFetchFixtures();
   const filteredMatches = fixtures.filter((match) => {
-    // 1. Base case: Jika tidak ada filter atau pilih "all-rounds", loloskan semua
     if (!selectedRound || selectedRound === "all-rounds") return true;
 
-    // 2. Table Lookup: Ambil nilai string API yang sesuai dari kamus (O(1) access)
     const targetRoundString = ROUND_MAPPING[selectedRound];
 
-    // 3. Eksekusi: Jika key ditemukan di kamus, lakukan pengecekan inklusif yang aman
-    // (di-convert ke lowercase untuk menghindari bug case-sensitive dari API)
     return targetRoundString 
       ? match.round.toLowerCase().includes(targetRoundString.toLowerCase()) 
       : false;
@@ -50,12 +44,11 @@ export default function Home() {
   return (
     <main className="pl-10 pr-20 pb-10">
       
-      {/* Bagian Hero */}
+      {/* Hero Section*/}
       <div className="w-full mb-8">
         <span className="text-[24px] font-bold text-[#F5F2FF] mb-4 block tracking-wide">
           Live Matches
         </span>
-        {/* Render hero hanya jika data sudah selesai dimuat */}
         {!isLoading && heroMatch ? (
            <LiveMatchHero matchId={heroMatch.id} />
         ) : (
@@ -65,7 +58,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* Bagian Fixtures */}
+      {/* Fixtures */}
       <div className="w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <span className="text-[24px] font-bold tracking-wide text-[#F5F2FF]">

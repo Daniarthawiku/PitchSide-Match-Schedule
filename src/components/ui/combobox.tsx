@@ -9,7 +9,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
@@ -46,7 +45,6 @@ export function Combobox({ options, value, onChange, placeholder = "Select optio
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0 bg-[#1e293b] border-white/10 text-white">
         <Command className="bg-transparent">
-          <CommandInput placeholder="Search round..." className="text-white placeholder:text-gray-400" />
           <CommandList>
             <CommandEmpty>No round found.</CommandEmpty>
             <CommandGroup>

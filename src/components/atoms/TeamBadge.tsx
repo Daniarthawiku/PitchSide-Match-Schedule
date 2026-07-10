@@ -8,14 +8,15 @@ interface TeamBadgeProps {
 export function TeamBadge({ name, flagUrl }: TeamBadgeProps) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-6 h-6 rounded-full overflow-hidden relative border border-gray-600">
+      <div className="overflow-hidden relative">
         <Image 
         src={flagUrl} 
         alt={`${name} flag`} 
-        fill 
-        className="object-cover" />
+        width={28}
+        height={28} 
+        className="object-cover w-full h-full" />
       </div>
-      <span className="font-medium text-sm text-gray-200">{name}</span>
+      <span className="font-medium text-sm text-[#F5F2FF]">{name}</span>
     </div>
   );
 }
