@@ -4,73 +4,77 @@
 import { useState } from "react";
 import { LiveMatchHero } from "@/components/organism/LiveMatchHero";
 import { Combobox } from "@/components/ui/combobox";
-import { MatchCard, MatchData } from "@/components/molecules/MatchCard";
+import { MatchCard} from "@/components/molecules/MatchCard";
+import { useFetchFixtures } from "@/hooks/useFetchFixtures";
+
+const ROUND_MAPPING: Record<string, string> = {
+  "group-stage-1": "Group Stage - 1",
+  "group-stage-2": "Group Stage - 2",
+  "group-stage-3": "Group Stage - 3",
+  "round-of-32": "Round of 32",
+  "round-of-16": "Round of 16",
+  "quarter-finals": "Quarter-finals",
+  "semi-final": "Semi-final",
+  "final": "Final",
+};
 
 const ROUND_OPTIONS = [
-  { value: "all-rounds", label: "All Rounds" },
-  { value: "round-32", label: "Round 32" },
-  { value: "round-16", label: "Round 16" },
-  { value: "round-8", label: "Round 8" },
-  { value: "semifinal", label: "Semifinal" },
-  { value: "final", label: "Final" },
-];
-
-// Data Dummy
-const MOCK_MATCHES: MatchData[] = [
-  {
-    id: "1",
-    time: "14:00",
-    round: "Round 16",
-    stadium: "Luzhniki Stadium",
-    status: "finished",
-    homeTeam: { name: "France", flagUrl: "https://flagcdn.com/w40/fr.png", score: 2 },
-    awayTeam: { name: "Australia", flagUrl: "https://flagcdn.com/w40/au.png", score: 1 },
-  },
-  {
-    id: "2",
-    time: "17:00",
-    round: "Round 16",
-    stadium: "Spartak Stadium",
-    status: "upcoming",
-    homeTeam: { name: "Denmark", flagUrl: "https://flagcdn.com/w40/dk.png", score: null },
-    awayTeam: { name: "Peru", flagUrl: "https://flagcdn.com/w40/pe.png", score: null },
-  },
-  {
-    id: "3",
-    time: "20:00",
-    round: "Quarter Final",
-    stadium: "Kazan Arena",
-    status: "upcoming",
-    homeTeam: { name: "Croatia", flagUrl: "https://flagcdn.com/w40/hr.png", score: null },
-    awayTeam: { name: "Nigeria", flagUrl: "https://flagcdn.com/w40/ng.png", score: null },
-  },
+  // Tambahkan opsi default "All Rounds" di index 0
+  { value: "all-rounds", label: "ALL ROUNDS" },
+  
+  // Mapping sisa data dari ROUND_MAPPING
+  ...Object.entries(ROUND_MAPPING).map(([key, val]) => ({
+    value: key,
+    label: val.toUpperCase(), // Mengubah ke huruf kapital agar seragam dengan "ALL ROUNDS"
+  })),
 ];
 
 export default function Home() {
-  const [selectedRound, setSelectedRound] = useState<string>("");
-  const filteredMatches = MOCK_MATCHES.filter((match) => {
-    if (!selectedRound) return true;
-    return match.round === selectedRound;
+  const [selectedRound, setSelectedRound] = useState<string>("all-rounds");
+  const { fixtures, isLoading, error } = useFetchFixtures();
+  const filteredMatches = fixtures.filter((match) => {
+    // 1. Base case: Jika tidak ada filter atau pilih "all-rounds", loloskan semua
+    if (!selectedRound || selectedRound === "all-rounds") return true;
+
+    // 2. Table Lookup: Ambil nilai string API yang sesuai dari kamus (O(1) access)
+    const targetRoundString = ROUND_MAPPING[selectedRound];
+
+    // 3. Eksekusi: Jika key ditemukan di kamus, lakukan pengecekan inklusif yang aman
+    // (di-convert ke lowercase untuk menghindari bug case-sensitive dari API)
+    return targetRoundString 
+      ? match.round.toLowerCase().includes(targetRoundString.toLowerCase()) 
+      : false;
   });
+  const heroMatch = fixtures.find(m => m.status === "live") || fixtures[0];
 
   return (
-    <main className="pl-10 pr-20">
-      <div className="w-full mb-4">
+    <main className="pl-10 pr-20 pb-10">
+      
+      {/* Bagian Hero */}
+      <div className="w-full mb-8">
         <span className="text-[24px] font-bold text-[#F5F2FF] mb-4 block tracking-wide">
           Live Matches
         </span>
-        <LiveMatchHero matchId = "1" />
+        {/* Render hero hanya jika data sudah selesai dimuat */}
+        {!isLoading && heroMatch ? (
+           <LiveMatchHero matchId={heroMatch.id} />
+        ) : (
+           <div className="w-full h-64 bg-white/5 animate-pulse rounded-2xl flex items-center justify-center border border-white/10 text-white/50">
+             Load Live Match...
+           </div>
+        )}
       </div>
 
+      {/* Bagian Fixtures */}
       <div className="w-full">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <span className="text-[24px] font-bold tracking-wide text-[#F5F2FF]">
             Fixtures
           </span>
           
           <div className="flex items-center gap-4">
             <Combobox 
-              options={ROUND_OPTIONS} 
+              options={ROUND_OPTIONS}
               value={selectedRound} 
               onChange={setSelectedRound} 
               placeholder="All Rounds"
@@ -78,19 +82,33 @@ export default function Home() {
           </div>
         </div>
 
-          {/* Grid Match Cards */}
-        {filteredMatches.length > 0 ? (
+        {/* State Berdasarkan Kondisi Fetching */}
+        {isLoading ? (
+          // Loading Skeleton
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="w-full h-40 bg-white/5 animate-pulse rounded-xl border border-white/10"></div>
+            ))}
+          </div>
+        ) : error ? (
+          // Error State
+          <div className="w-full p-10 text-center border border-red-500/50 bg-red-500/10 rounded-2xl text-red-400">
+            {error}
+          </div>
+        ) : filteredMatches.length > 0 ? (
+          // Success State - Grid Match Cards
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMatches.map((match) => (
               <MatchCard key={match.id} match={match} />
             ))}
           </div>
         ) : (
-          // Empty State
-          <div className="w-full p-10 text-center border border-dashed border-white/20 rounded-2xl text-white">
+          // Empty State (Data kosong setelah difilter)
+          <div className="w-full p-10 text-center border border-dashed border-white/20 rounded-2xl text-white/60">
             Couldnt find any matches for the selected round. Please try a different round.
           </div>
         )}
+        
       </div>
     </main>
   );

@@ -35,6 +35,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+
+
 ```
 pitchside-web
 ├─ components.json
@@ -59,6 +61,8 @@ pitchside-web
 │  │  ├─ match
 │  │  │  └─ [id]
 │  │  │     └─ page.tsx
+│  │  ├─ matches
+│  │  │  └─ page.tsx
 │  │  ├─ not-found.tsx
 │  │  └─ page.tsx
 │  ├─ components
@@ -84,7 +88,9 @@ pitchside-web
 │  │     ├─ textarea.tsx
 │  │     └─ tooltip.tsx
 │  ├─ hooks
-│  │  └─ use-mobile.ts
+│  │  ├─ use-mobile.ts
+│  │  ├─ useFetchFixtures.ts
+│  │  └─ useFetchMatch.ts
 │  └─ lib
 │     └─ utils.ts
 └─ tsconfig.json

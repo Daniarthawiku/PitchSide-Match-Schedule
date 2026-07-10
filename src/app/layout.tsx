@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Calendar, Bell } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 
 const ibmSans = IBM_Plex_Sans({
@@ -33,7 +34,7 @@ export default function RootLayout({
               PITCHSIDE
             </h1>
             <div className="flex gap-8">
-              <Calendar className="size-[24px] text-gray-400 hover:text-white cursor-pointer transition" />
+              <Calendar className="size-[24px] text-gray-400 hover:text-white cursor-pointer transition"/>
               <Bell className="size-[24px] text-gray-400 hover:text-white cursor-pointer transition" />
             </div>
           </header>

@@ -4,57 +4,20 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
-
-const MOCK_MATCH_DETAIL = {
-  id: "1", 
-  time: "14:00",
-  round: "Round 16 - Matchday 2",
-  stadium: "Luzhniki Stadium",
-  status: "live",
-  minute: "76'",
-  homeTeam: { 
-    name: "BRAZIL", 
-    flagUrl: "https://flagcdn.com/w40/br.png", 
-    score: 2,
-    coach: "Carlo Ancelotti",
-    lineup: [
-      { num: 12, name: "Ederson", pos: "(GK)" },
-      { num: 14, name: "Eder Militao", pos: "CB" },
-      { num: 17, name: "Bruno Guimaraes", pos: "CB" },
-      { num: 21, name: "Gabriel Martinelli", pos: "CB" },
-      { num: 9, name: "Richarlison", pos: "ST" },
-    ],
-    subs: [
-      { num: 1, name: "Alisson", pos: "(GK)" },
-      { num: 22, name: "Antony", pos: "(LW)" },
-      { num: 10, name: "Neymar Jr", pos: "(ST)" },
-    ]
-  },
-  awayTeam: { 
-    name: "GERMANY", 
-    flagUrl: "https://flagcdn.com/w40/de.png", 
-    score: 1,
-    coach: "Julian Nagelsmann",
-    lineup: [
-      { num: 1, name: "Manuel Neuer", pos: "(GK)" },
-      { num: 2, name: "Antonio Rudiger", pos: "" },
-      { num: 6, name: "Joshua Kimmich", pos: "" },
-      { num: 8, name: "Toni Kroos", pos: "" },
-      { num: 10, name: "Jamal Musiala", pos: "" },
-    ],
-    subs: [
-      { num: 22, name: "Ter Stegen", pos: "(GK)" },
-      { num: 11, name: "Marco Reus", pos: "" },
-      { num: 9, name: "Niclas Fullkrug", pos: "" },
-    ]
-  },
-};
+import { useFetchMatch } from "@/hooks/useFetchMatch";
 
 type TabType = "lineup" | "substitutes" | "stats";
 
 export default function MatchInfo({ params }: { params: { id: string } }) {
-  const [activeTab, setActiveTab] = useState<TabType>("substitutes"); 
-  const match = MOCK_MATCH_DETAIL;
+  const [activeTab, setActiveTab] = useState<TabType>("lineup"); 
+
+  const { data: match, isLoading, error } = useFetchMatch(params.id);
+  if (isLoading) {
+    return <div className="w-full h-screen flex items-center justify-center text-[#39ff14]">Memuat Data Pertandingan...</div>;
+  }
+  if (error || !match) {
+    return <div className="w-full h-screen flex items-center justify-center text-red-500">{error || "Data tidak ditemukan"}</div>;
+  }
 
   const getBgGradient = (status: string) => {
     if (status === "live") {
@@ -99,7 +62,7 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* --- HERO MATCH SCORE CARD --- */}
+      {/* HERO MATCH SCORE CARD */}
       <div className="bg-white/12 backdrop-blur-sm border border-white/10 rounded-xl md:p-10 mb-6">
         <div className="flex justify-center items-center gap-3 mb-6">
           {match.status === "live" && (
@@ -122,7 +85,7 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
           </div>
 
           {/* Score */}
-          <div className="text-4xl md:text-5xl font-black text-[#39ff14] tracking-tighter w-1/3 text-center">
+          <div className="text-[28px] md:text-5xl font-bold text-[#39ff14] tracking-tighter w-1/3 text-center">
             {match.status === "upcoming" ? "- : -" : `${match.homeTeam.score} - ${match.awayTeam.score}`}
           </div>
 
@@ -139,10 +102,10 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
 
       {/* --- CONTENT AREA --- */}
       {activeTab === "stats" ? (
-        <div className="bg-[#201F1F] backdrop-blur-md border border-white/10 rounded-2xl p-8 flex items-center justify-center min-h-[300px]">
+        <div className="w-full p-10 text-center border border-dashed border-white/20 rounded-2xl text-white/60">
           <div className="text-center">
-             <h3 className="text-2xl font-bold text-white mb-2">Match Statistics</h3>
-             <p className="text-gray-400">Data visualization will be built here.</p>
+             <h3 className="text-[28px] font-bold text-[#F5F2FF] mb-2">Match Statistics</h3>
+             <p className="text-[#F5F2FF]/60">Data visualization will be built here.</p>
           </div>
         </div>
       ) : (
@@ -150,14 +113,14 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
           
           {/* Home Team */}
           <div className="bg-white/12 backdrop-blur-sm border border-white/10 rounded-xl p-6 flex flex-col h-full">
-            <h3 className="font-bold mb-6 text-lg tracking-wide flex w-full justify-between items-center">
-              <span className="text-[#39ff14] text-[24px] uppercase">{match.homeTeam.name} {activeTab === "lineup" ? "Lineup" : "Subs"}</span>
-              <span>{match.homeTeam.coach} </span>
+            <h3 className="mb-4 flex w-full justify-between items-center">
+              <span className="text-[#39ff14] font-bold text-[28px] uppercase">{match.homeTeam.name} {activeTab === "lineup" ? "Lineup" : "Subs"}</span>
+              <span className="font-medium text-[16px] text-right">{match.homeTeam.coach} </span>
             </h3>
             <div className="flex-1 space-y-4">
               {(activeTab === "lineup" ? match.homeTeam.lineup : match.homeTeam.subs).map((player, idx) => (
-                <div key={idx} className="flex justify-between items-center w-full text-[18px]">
-                  <div className="flex items-center gap-4"> 
+                <div key={idx} className="flex justify-between items-center w-full ">
+                  <div className="flex items-center gap-6"> 
                     <span className="text-[#73204C] font-bold w-6">{player.num}</span>
                     <span className="text-[#F5F2FF] font-medium">{player.name}</span>
                   </div> 
@@ -169,7 +132,7 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
 
           {/* Tactical Setup Pitch*/}
           <div className="bg-white/12 backdrop-blur-sm border border-white/10 rounded-xl p-6 flex flex-col items-center h-full">
-            <h3 className="text-[#39ff14] font-bold mb-6 text-lg w-full text-left">TACTICAL SETUP</h3>
+            <h3 className="text-[#39ff14] font-bold text-[28px] uppercase mb-4 w-full text-left">TACTICAL SETUP</h3>
             
             <div className="relative w-full aspect-[4/3] border-2 border-white/20 rounded-sm bg-[#538059] overflow-hidden shadow-inner">
               <div className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-white/20 -translate-x-1/2"></div>
@@ -177,22 +140,25 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
               <div className="absolute top-1/4 bottom-1/4 left-0 w-1/6 border-2 border-l-0 border-white/20"></div>
               <div className="absolute top-1/4 bottom-1/4 right-0 w-1/6 border-2 border-r-0 border-white/20"></div>
               
-              <div className="absolute top-1/2 left-4 w-6 h-6 bg-[#73204C] border-2 border-[#AB47BC] rounded-full flex justify-center items-center text-[10px] text-white -translate-y-1/2 shadow-lg">1</div>
-              <div className="absolute top-1/2 right-4 w-6 h-6 bg-white border-2 border-gray-400 rounded-full flex justify-center items-center text-[10px] text-black -translate-y-1/2 shadow-lg">1</div>
-              <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-[#73204C] border-2 border-[#AB47BC] rounded-full flex justify-center items-center text-[10px] text-white -translate-y-1/2 -translate-x-6 shadow-lg">9</div>
+              <div className="absolute top-1/2 left-4 w-6 h-6 bg-[#73204C] border-2 border-[#AB47BC] 
+              rounded-full flex justify-center items-center text-[10px] text-white -translate-y-1/2 shadow-lg">1</div>
+              <div className="absolute top-1/2 right-4 w-6 h-6 bg-white border-2 border-gray-400 
+              rounded-full flex justify-center items-center text-[10px] text-black -translate-y-1/2 shadow-lg">1</div>
+              <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-[#73204C] border-2 border-[#AB47BC] 
+              rounded-full flex justify-center items-center text-[10px] text-white -translate-y-1/2 -translate-x-6 shadow-lg">9</div>
             </div>
           </div>
 
           {/* Away Team */}
           <div className="bg-white/12 backdrop-blur-sm border border-white/10 rounded-xl p-6 flex flex-col h-full">
-            <h3 className="font-bold mb-6 text-lg tracking-wide flex w-full justify-between items-center">
-              <span className="text-[#39ff14] text-[24px] uppercase">{match.awayTeam.name} {activeTab === "lineup" ? "Lineup" : "Subs"}</span>
-              <span>{match.awayTeam.coach} </span>
+            <h3 className="mb-4 flex w-full justify-between items-center">
+              <span className="text-[#39ff14] font-bold text-[28px] uppercase">{match.awayTeam.name} {activeTab === "lineup" ? "Lineup" : "Subs"}</span>
+              <span className="font-medium text-[16px] text-right">{match.awayTeam.coach} </span>
             </h3>
             <div className="flex-1 space-y-4">
               {(activeTab === "lineup" ? match.awayTeam.lineup : match.awayTeam.subs).map((player, idx) => (
-                <div key={idx} className="flex justify-between items-center w-full text-[18px]">
-                  <div className="flex items-center gap-4"> 
+                <div key={idx} className="flex justify-between items-center w-full ">
+                  <div className="flex items-center gap-6"> 
                     <span className="text-[#73204C] font-bold w-6">{player.num}</span>
                     <span className="text-[#F5F2FF] font-medium">{player.name}</span>
                   </div> 

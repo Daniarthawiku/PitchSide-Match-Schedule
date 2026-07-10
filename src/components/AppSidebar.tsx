@@ -26,8 +26,7 @@ export function AppSidebar() {
 
   return (
     <aside className= {`pl-20 w-64 p-6 hidden md:block transition-all duration-300 ${state === "collapsed" ? "w-0 p-0 overflow-hidden opacity-0" : "opacity-100"}`}>
-      <nav className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 
-      flex flex-col gap-2 shadow-2xl min-w-[200px]">
+      <nav className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-4 flex flex-col gap-2 shadow-2xl min-w-[200px]">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;

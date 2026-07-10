@@ -17,7 +17,7 @@ export default function NotFound() {
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f18] via-[#0a0f18]/40 to-transparent"></div>
     
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 mt-180">
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 mt-160">
         <Link href="/">
           <Button   
             className="bg-[#39ff14] hover:bg-[#32d711] font-[12px] font-medium px-5 py-5
