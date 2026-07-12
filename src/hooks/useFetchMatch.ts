@@ -7,8 +7,8 @@ export interface TransformedMatchData {
   stadium: string;
   status: "finished" | "upcoming" | "live";
   minute: string;
-  homeTeam: { name: string; flagUrl: string; score: number | null; coach: string; lineup: any[]; subs: any[] };
-  awayTeam: { name: string; flagUrl: string; score: number | null; coach: string; lineup: any[]; subs: any[] };
+  homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: any[]; subs: any[] };
+  awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: any[]; subs: any[] };
 }
 
 export function useFetchMatch(matchId: string) {
@@ -67,6 +67,7 @@ export function useFetchMatch(matchId: string) {
             name: apiData.teams.home.name,
             flagUrl: apiData.teams.home.logo,
             score: apiData.goals.home,
+            penaltyScore: apiData.score.penalty.home,
             coach: homeLineupData.coach.name,
             lineup: homeLineupData.startXI.map(formatPlayer),
             subs: homeLineupData.substitutes.map(formatPlayer),
@@ -75,6 +76,7 @@ export function useFetchMatch(matchId: string) {
             name: apiData.teams.away.name,
             flagUrl: apiData.teams.away.logo,
             score: apiData.goals.away,
+            penaltyScore: apiData.score.penalty.home,
             coach: awayLineupData.coach.name,
             lineup: awayLineupData.startXI.map(formatPlayer),
             subs: awayLineupData.substitutes.map(formatPlayer),

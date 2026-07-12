@@ -50,11 +50,13 @@ export function useFetchFixtures() {
               name: apiData.teams.home.name,
               flagUrl: apiData.teams.home.logo,
               score: apiData.goals.home,
+              penaltyScore: apiData.score.penalty.home,
             },
             awayTeam: {
               name: apiData.teams.away.name,
               flagUrl: apiData.teams.away.logo,
               score: apiData.goals.away,
+              penaltyScore: apiData.score.penalty.away,
             },
           };
         });

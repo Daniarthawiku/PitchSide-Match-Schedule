@@ -19,7 +19,7 @@ export default function MatchInfo({ params }: { params: { id: string } }) {
     return <div className="w-full h-screen flex items-center justify-center text-red-500">{error || "Data tidak ditemukan"}</div>;
   }
 
-  const getBgGradient = (status: string) => {
+   const getBgGradient = (status: string) => {
     if (status === "live") {
       return "from-[#1E153A] via-[#EC577D] to-[#FFA400]"; 
     } else if (status === "upcoming") {

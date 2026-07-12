@@ -6,12 +6,24 @@ export interface MatchData {
   time: string;
   round: string;
   stadium: string;
-  status: "finished" | "upcoming" | "live";
-  homeTeam: { name: string; flagUrl: string; score: number | null };
-  awayTeam: { name: string; flagUrl: string; score: number | null };
+  status: "finished" | "live" | "upcoming";
+  homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore?: number | null }; 
+  awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore?: number | null }; 
 }
 
 export function MatchCard({ match }: { match: MatchData }) {
+  const homePen = match.homeTeam.penaltyScore;
+  const awayPen = match.awayTeam.penaltyScore;
+  const homeScore = match.homeTeam.score;
+  const awayScore = match.awayTeam.score;
+
+  const isHomeWinner = homePen !== null && awayPen !== null 
+    ? homePen > awayPen 
+    : (homeScore !== null && awayScore !== null ? homeScore > awayScore : false);
+  
+  const isAwayWinner = homePen !== null && awayPen !== null 
+    ? awayPen > homePen 
+    : (homeScore !== null && awayScore !== null ? awayScore > homeScore : false);
   return (
     <Link href={`/match/${match.id}`} className="block group">
       <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5 
@@ -30,15 +42,21 @@ export function MatchCard({ match }: { match: MatchData }) {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <TeamBadge name={match.homeTeam.name} flagUrl={match.homeTeam.flagUrl} />
-            <span className="font-bold text-lg text-[#39ff14]">
-              {match.status === "upcoming" ? "--" : (match.homeTeam.score ?? '-')}
+            <span className={`font-bold text-lg ${isHomeWinner ? "text-[#39ff14]" : "text-white"}`}>
+              {match.homeTeam.score ?? "-"} 
+              {match.homeTeam.penaltyScore !== null && (
+                <span className="text-sm ml-1">({match.homeTeam.penaltyScore})</span>
+              )}
             </span>
           </div>
           
           <div className="flex justify-between items-center">
             <TeamBadge name={match.awayTeam.name} flagUrl={match.awayTeam.flagUrl} />
-            <span className="font-bold text-lg text-[#39ff14]">
-              {match.status === "upcoming" ? "--" : (match.awayTeam.score ?? '-')}
+            <span className={`font-bold text-lg ${isAwayWinner ? "text-[#39ff14]" : "text-white"}`}>
+              {match.awayTeam.score ?? "-"} 
+              {match.awayTeam.penaltyScore !== null && (
+                <span className="text-sm ml-1">({match.awayTeam.penaltyScore})</span>
+              )}
             </span>
           </div>
         </div>

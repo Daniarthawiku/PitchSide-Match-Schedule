@@ -11,11 +11,10 @@ const ROUND_MAPPING: Record<string, string> = {
   "group-stage-1": "Group Stage - 1",
   "group-stage-2": "Group Stage - 2",
   "group-stage-3": "Group Stage - 3",
-  "round-of-32": "Round of 32",
   "round-of-16": "Round of 16",
   "quarter-finals": "Quarter-finals",
   "semi-final": "Semi-final",
-  "final": "Final",
+  "3rd-place-final": "3rd Place Final",
 };
 
 const ROUND_OPTIONS = [
@@ -30,16 +29,25 @@ const ROUND_OPTIONS = [
 export default function Home() {
   const [selectedRound, setSelectedRound] = useState<string>("all-rounds");
   const { fixtures, isLoading, error } = useFetchFixtures();
-  const filteredMatches = fixtures.filter((match) => {
+  const heroMatch = fixtures.find(match => 
+    match.round.toLowerCase().includes("final") && 
+    !match.round.toLowerCase().includes("semi") && 
+    !match.round.toLowerCase().includes("quarter") && 
+    !match.round.toLowerCase().includes("3rd")
+  );
+
+  const fixturesWithoutFinal = fixtures.filter(match => 
+    match.id !== heroMatch?.id
+  );
+
+  const filteredMatches = fixturesWithoutFinal.filter((match) => {
     if (!selectedRound || selectedRound === "all-rounds") return true;
-
+    
     const targetRoundString = ROUND_MAPPING[selectedRound];
-
     return targetRoundString 
       ? match.round.toLowerCase().includes(targetRoundString.toLowerCase()) 
       : false;
   });
-  const heroMatch = fixtures.find(m => m.status === "live") || fixtures[0];
 
   return (
     <main className="pl-10 pr-20 pb-10">
@@ -47,14 +55,18 @@ export default function Home() {
       {/* Hero Section*/}
       <div className="w-full mb-8">
         <span className="text-[24px] font-bold text-[#F5F2FF] mb-4 block tracking-wide">
-          Live Matches
+          Live Match
         </span>
-        {!isLoading && heroMatch ? (
-           <LiveMatchHero matchId={heroMatch.id} />
+        {isLoading ? (
+          <div className="w-full h-64 bg-white/5 animate-pulse rounded-2xl flex items-center justify-center border border-white/10 text-white/50">
+            Looking for Final Match...
+          </div>
+        ) : heroMatch ? (
+          <LiveMatchHero match={heroMatch} />
         ) : (
-           <div className="w-full h-64 bg-white/5 animate-pulse rounded-2xl flex items-center justify-center border border-white/10 text-white/50">
-             Load Live Match...
-           </div>
+          <div className="w-full h-64 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 text-white/50">
+            Final Match Not Found.
+          </div>
         )}
       </div>
 
@@ -62,7 +74,7 @@ export default function Home() {
       <div className="w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <span className="text-[24px] font-bold tracking-wide text-[#F5F2FF]">
-            Fixtures
+            Played Match
           </span>
           
           <div className="flex items-center gap-4">
@@ -75,7 +87,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* State Berdasarkan Kondisi Fetching */}
+        {/* Fetching State */}
         {isLoading ? (
           // Loading Skeleton
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,7 +108,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          // Empty State (Data kosong setelah difilter)
+          // Empty State
           <div className="w-full p-10 text-center border border-dashed border-white/20 rounded-2xl text-white/60">
             Couldnt find any matches for the selected round. Please try a different round.
           </div>
