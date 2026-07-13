@@ -77,15 +77,10 @@ pitchside-web
 │  │     ├─ button.tsx
 │  │     ├─ combobox.tsx
 │  │     ├─ command.tsx
-│  │     ├─ dialog.tsx
-│  │     ├─ input-group.tsx
-│  │     ├─ input.tsx
 │  │     ├─ popover.tsx
 │  │     ├─ separator.tsx
-│  │     ├─ sheet.tsx
 │  │     ├─ sidebar.tsx
 │  │     ├─ skeleton.tsx
-│  │     ├─ textarea.tsx
 │  │     └─ tooltip.tsx
 │  ├─ hooks
 │  │  ├─ use-mobile.ts

@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <main className="pl-10 pr-20 pb-10">
       
-      {/* Hero Section*/}
+      {/*hero section*/}
       <div className="w-full mb-8">
         <span className="text-[24px] font-bold text-[#F5F2FF] mb-4 block tracking-wide">
           Live Match
@@ -70,7 +70,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* Fixtures */}
+      {/* played match */}
       <div className="w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <span className="text-[24px] font-bold tracking-wide text-[#F5F2FF]">
@@ -87,28 +87,28 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Fetching State */}
+        {/* fetching state */}
         {isLoading ? (
-          // Loading Skeleton
+          // loading skeleton
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div key={n} className="w-full h-40 bg-white/5 animate-pulse rounded-xl border border-white/10"></div>
             ))}
           </div>
         ) : error ? (
-          // Error State
+          // error state
           <div className="w-full p-10 text-center border border-red-500/50 bg-red-500/10 rounded-2xl text-red-400">
             {error}
           </div>
         ) : filteredMatches.length > 0 ? (
-          // Success State - Grid Match Cards
+          // success state
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMatches.map((match) => (
               <MatchCard key={match.id} match={match} />
             ))}
           </div>
         ) : (
-          // Empty State
+          // empty state
           <div className="w-full p-10 text-center border border-dashed border-white/20 rounded-2xl text-white/60">
             Couldnt find any matches for the selected round. Please try a different round.
           </div>

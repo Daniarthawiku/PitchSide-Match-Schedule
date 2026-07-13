@@ -30,7 +30,7 @@ export function MatchCard({ match }: { match: MatchData }) {
       transition-all duration-300 cursor-pointer group-hover:bg-white/10 group-hover:border-white/30 
       group-hover:shadow-[0_0_15px_rgba(255,255,255,0.05)] group-hover:scale-[1.01]">
         
-        {/* Header Info */}
+        {/* header info */}
         <div className="flex justify-between items-center text-[12px] text-[#F5F2FF] mb-5 pb-3 
         border-b border-white/10 uppercase tracking-wider">
           <span>{match.time} WIB</span>
@@ -38,7 +38,7 @@ export function MatchCard({ match }: { match: MatchData }) {
           <span className="truncate ml-2 text-right">{match.stadium}</span>
         </div>
         
-        {/* Daftar Tim & Skor */}
+        {/* teamlist & score */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <TeamBadge name={match.homeTeam.name} flagUrl={match.homeTeam.flagUrl} />

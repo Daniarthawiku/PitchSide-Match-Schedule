@@ -9,6 +9,7 @@ export interface TransformedMatchData {
   minute: string;
   homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: any[]; subs: any[] };
   awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: any[]; subs: any[] };
+  stats?: { type: string; home: string | number; away: string | number }[];
 }
 
 export function useFetchMatch(matchId: string) {
@@ -38,7 +39,7 @@ export function useFetchMatch(matchId: string) {
         const result = await response.json();
 
         if (result.errors && Object.keys(result.errors).length > 0) {
-          throw new Error("Couldnt get data from API-Football");
+          throw new Error("Gagal mengambil data dari API-Football");
         }
 
         const apiData = result.response[0];
@@ -55,6 +56,18 @@ export function useFetchMatch(matchId: string) {
           name: p.player.name,
           pos: p.player.pos === "G" ? "(GK)" : p.player.pos,
         });
+
+        let transformedStats = [];
+        if (apiData.statistics && apiData.statistics.length === 2) {
+          const homeStats = apiData.statistics[0].statistics;
+          const awayStats = apiData.statistics[1].statistics;
+     
+          transformedStats = homeStats.map((stat: any, index: number) => ({
+            type: stat.type,
+            home: stat.value !== null ? stat.value : 0, 
+            away: awayStats[index]?.value !== null ? awayStats[index]?.value : 0,
+          }));
+        }
 
         const transformed: TransformedMatchData = {
           id: matchId,
@@ -76,23 +89,24 @@ export function useFetchMatch(matchId: string) {
             name: apiData.teams.away.name,
             flagUrl: apiData.teams.away.logo,
             score: apiData.goals.away,
-            penaltyScore: apiData.score.penalty.home,
+            penaltyScore: apiData.score.penalty.away,
             coach: awayLineupData.coach.name,
             lineup: awayLineupData.startXI.map(formatPlayer),
             subs: awayLineupData.substitutes.map(formatPlayer),
           },
+          stats: transformedStats.length > 0 ? transformedStats : undefined, 
         };
 
         setData(transformed);
       } catch (err: any) {
-        setError(err.message || "Couldnt find any Data");
+        setError(err.message || "Terjadi kesalahan saat memuat data.");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMatchDetail();
-  }, [matchId]); 
+  }, [matchId]);
 
   return { data, isLoading, error };
 }
