@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
 
+interface PlayerData {
+  num: number;
+  name: string;
+  pos: string;
+  grid: string | null;
+}
+
 export interface TransformedMatchData {
   id: string;
   time: string;
@@ -7,8 +14,8 @@ export interface TransformedMatchData {
   stadium: string;
   status: "finished" | "upcoming" | "live";
   minute: string;
-  homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: any[]; subs: any[] };
-  awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: any[]; subs: any[] };
+  homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: PlayerData[]; subs: PlayerData[] };
+  awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: PlayerData[]; subs: PlayerData[] };
   stats?: { type: string; home: string | number; away: string | number }[];
 }
 
@@ -51,11 +58,21 @@ export function useFetchMatch(matchId: string) {
         const homeLineupData = apiData.lineups?.[0] || { startXI: [], substitutes: [], coach: { name: "TBA" } };
         const awayLineupData = apiData.lineups?.[1] || { startXI: [], substitutes: [], coach: { name: "TBA" } };
 
-        const formatPlayer = (p: any) => ({
-          num: p.player.number,
-          name: p.player.name,
-          pos: p.player.pos === "G" ? "(GK)" : p.player.pos,
-        });
+        const formatPlayer = (p: any): PlayerData => {
+          const positionMap: Record<string, string> = {
+            "G": "Goalkeeper",
+            "D": "Defender",
+            "M": "Midfielder",
+            "F": "Forward",
+          };
+
+          return {
+            num: p.player.number,
+            name: p.player.name,
+            pos: positionMap[p.player.pos] || `(${p.player.pos})`, 
+            grid: p.player.grid ? p.player.grid : null,
+          };
+        };
 
         let transformedStats = [];
         if (apiData.statistics && apiData.statistics.length === 2) {

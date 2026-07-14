@@ -157,7 +157,7 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
               {(activeTab === "lineup" ? match.homeTeam.lineup : match.homeTeam.subs).map((player, idx) => (
                 <div key={idx} className="flex justify-between items-center w-full ">
                   <div className="flex items-center gap-6"> 
-                    <span className="text-[#73204C] font-bold w-6">{player.num}</span>
+                    <span className="text-[#F5F2FF] font-bold w-6">{player.num}</span>
                     <span className="text-[#F5F2FF] font-medium">{player.name}</span>
                   </div> 
                   <span className="text-[#39ff14] font-bold tracking-wider">{player.pos}</span>
@@ -171,17 +171,57 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
             <h3 className="text-[#39ff14] font-bold text-[28px] uppercase mb-4 w-full text-left">TACTICAL SETUP</h3>
             
             <div className="relative w-full aspect-[4/3] border-2 border-white/20 rounded-sm bg-[#538059] overflow-hidden shadow-inner">
+              {/* pitch */}
               <div className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-white/20 -translate-x-1/2"></div>
               <div className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-white/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
               <div className="absolute top-1/4 bottom-1/4 left-0 w-1/6 border-2 border-l-0 border-white/20"></div>
               <div className="absolute top-1/4 bottom-1/4 right-0 w-1/6 border-2 border-r-0 border-white/20"></div>
               
-              <div className="absolute top-1/2 left-4 w-6 h-6 bg-[#73204C] border-2 border-[#AB47BC] 
-              rounded-full flex justify-center items-center text-[10px] text-white -translate-y-1/2 shadow-lg">1</div>
-              <div className="absolute top-1/2 right-4 w-6 h-6 bg-white border-2 border-gray-400 
-              rounded-full flex justify-center items-center text-[10px] text-black -translate-y-1/2 shadow-lg">1</div>
-              <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-[#73204C] border-2 border-[#AB47BC] 
-              rounded-full flex justify-center items-center text-[10px] text-white -translate-y-1/2 -translate-x-6 shadow-lg">9</div>
+              {/* home side */}
+              {match.homeTeam.lineup.map((player, idx, arr) => {
+                if (!player.grid) return null;
+                const [row, col] = player.grid.split(':').map(Number);                
+                const countInRow = arr.filter(p => p.grid && p.grid.startsWith(`${row}:`)).length;
+                const leftPos = `${row * 15}%`; 
+                const topPos = `${(col / (countInRow + 1)) * 100}%`; 
+
+                return (
+                  <div 
+                    key={`home-${idx}`} 
+                    className="absolute w-7 h-7 bg-[#39ff14] border-2 border-green-800 rounded-full flex justify-center items-center text-[11px] text-black font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform hover:scale-125 z-10 group"
+                    style={{ left: leftPos, top: topPos }}
+                  >
+                    {player.num}
+                    {/* tooltip */}
+                    <div className="absolute bottom-full mb-1 hidden group-hover:block w-max max-w-[120px] text-center bg-black/90 text-white text-[10px] px-2 py-1 rounded border border-white/20 z-20">
+                      {player.name}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* away side */}
+              {match.awayTeam.lineup.map((player, idx, arr) => {
+                if (!player.grid) return null;
+                const [row, col] = player.grid.split(':').map(Number);                
+                const countInRow = arr.filter(p => p.grid && p.grid.startsWith(`${row}:`)).length;
+                const rightPos = `${row * 15}%`; 
+                const topPos = `${(col / (countInRow + 1)) * 100}%`;
+
+                return (
+                  <div 
+                    key={`away-${idx}`} 
+                    className="absolute w-7 h-7 bg-[#EC577D] border-2 border-pink-900 rounded-full flex justify-center items-center text-[11px] text-white font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] transform translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform hover:scale-125 z-10 group"
+                    style={{ right: rightPos, top: topPos }}
+                  >
+                    {player.num}
+                    {/* tooltip */}
+                    <div className="absolute bottom-full mb-1 hidden group-hover:block w-max max-w-[120px] text-center bg-black/90 text-white text-[10px] px-2 py-1 rounded border border-white/20 z-20">
+                      {player.name}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -195,7 +235,7 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
               {(activeTab === "lineup" ? match.awayTeam.lineup : match.awayTeam.subs).map((player, idx) => (
                 <div key={idx} className="flex justify-between items-center w-full ">
                   <div className="flex items-center gap-6"> 
-                    <span className="text-[#73204C] font-bold w-6">{player.num}</span>
+                    <span className="text-[#F5F2FF] font-bold w-6">{player.num}</span>
                     <span className="text-[#F5F2FF] font-medium">{player.name}</span>
                   </div> 
                   <span className="text-[#39ff14] font-bold tracking-wider">{player.pos}</span>
