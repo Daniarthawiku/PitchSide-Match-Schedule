@@ -1,42 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PitchSide
 
-## Getting Started
+![Pitchside Banner](https://img.shields.io/badge/Pitchside-Football_Dashboard-1E153A?style=for-the-badge&logo=react)
 
-First, run the development server:
+Pitchside is a sleek, modern, and data-driven web application built to track football fixtures, *real-time match statistics, and tactical setups. Designed with a focus on seamless UI/UX and optimized data fetching, Pitchside brings the stadium experience directly to your screen.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Currently configured to track the intense moments of the **World Cup 2022**.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Key Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **🏆 Interactive Knockout Bracket:** A visual, draggable tournament bracket showcasing the road to the final.
+* **⏱️ Real-Time Match Status:** Dynamic score updates, live minute tracking.
+* **📊 Comparative Match Analytics:** Auto-calculating horizontal bar chart dashboard for team statistics (possession, shots, passes, cards, etc.).
+* **🗺️ Dynamic Tactical Setup:** An automated visual football pitch that renders starting XI formations using X/Y grid coordinates directly from the API.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+This project is built utilizing modern frontend technologies to ensure maintainability, performance, and a great developer experience:
 
-To learn more about Next.js, take a look at the following resources:
+* **Framework:** [Next.js](https://nextjs.org/) (App Router)
+* **Library:** [React](https://react.dev/)
+* **Language:** [TypeScript](https://www.typescriptlang.org/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **UI Components:** [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
+* **Icons:** [Lucide React](https://lucide.dev/)
+* **Data Source:** [API-Football v3](https://www.api-football.com/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Follow these steps to run Pitchside locally on your machine.
 
-## Deploy on Vercel
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed on your system.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```bash
+    git clone https://github.com/Daniarthawiku/PitchSide-Match-Schedule.git
+2. **Change Directory**
+   ```bash
+   cd pitchside-web
+3. **Install dependencies:**
+   ```bash
+   npm install
+4. **Set up Environment Variables:**
+   Create a `.env.local` file in the root directory and add your API-Football key:
+   ```bash
+   NEXT_PUBLIC_API_FOOTBALL_KEY=your_api_key_here
+5. **Run the development server:**
+   ```bash
+   npm run dev
+6. **Open the app**
+Navigate to `http://localhost:3000` in your browser to see the result.
 
 
-
+## 📂 Project Structure
 ```
 pitchside-web
 ├─ components.json
@@ -89,5 +107,8 @@ pitchside-web
 │  └─ lib
 │     └─ utils.ts
 └─ tsconfig.json
-
 ```
+
+💡 Developer Note
+1. API Rate Limiting: This application relies on the free tier of API-Football (100 requests/day). A custom tracking system has been injected into the data-fetching hooks to monitor x-ratelimit-requests-remaining via the response headers. Check your browser console to monitor your daily quota during development!
+2. real-time match statistics: its only simulation of a real-time match. Why? cause the real-time match for World Cup 2026 only for a pro plan so i use the world cup 2022 data instead
