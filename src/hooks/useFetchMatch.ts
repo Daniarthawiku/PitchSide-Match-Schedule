@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// player information 
 interface PlayerData {
   num: number;
   name: string;
@@ -7,6 +8,15 @@ interface PlayerData {
   grid: string | null;
 }
 
+// player scores record 
+interface GoalEvent {
+  playerName: string;
+  elapsed: number;
+  extra: number | null;
+  detail: string;
+}
+
+// match information
 export interface TransformedMatchData {
   id: string;
   time: string;
@@ -14,8 +24,8 @@ export interface TransformedMatchData {
   stadium: string;
   status: "finished" | "upcoming" | "live";
   minute: string;
-  homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: PlayerData[]; subs: PlayerData[] };
-  awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: PlayerData[]; subs: PlayerData[] };
+  homeTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: PlayerData[]; subs: PlayerData[]; scorers: GoalEvent[] };
+  awayTeam: { name: string; flagUrl: string; score: number | null; penaltyScore: number | null; coach: string; lineup: PlayerData[]; subs: PlayerData[]; scorers: GoalEvent[] }
   stats?: { type: string; home: string | number; away: string | number }[];
 }
 
@@ -86,6 +96,32 @@ export function useFetchMatch(matchId: string) {
           }));
         }
 
+        // goal scorer logic
+        const homeScorers: GoalEvent[] = [];
+        const awayScorers: GoalEvent[] = [];
+
+        if (apiData.events) {
+          apiData.events.forEach((e: any) => {
+            if (e.type === "Goal") {
+              const isHomeEvent = e.team.id === apiData.teams.home.id;
+              const isOwnGoal = e.detail === "Own Goal";
+              
+              const goalData: GoalEvent = {
+                playerName: e.player.name,
+                elapsed: e.time.elapsed,
+                extra: e.time.extra || null,
+                detail: e.detail
+              };
+
+              // own goal handler
+              if (isHomeEvent && !isOwnGoal) homeScorers.push(goalData);
+              else if (isHomeEvent && isOwnGoal) awayScorers.push(goalData);
+              else if (!isHomeEvent && !isOwnGoal) awayScorers.push(goalData);
+              else if (!isHomeEvent && isOwnGoal) homeScorers.push(goalData);
+            }
+          });
+        }
+
         const transformed: TransformedMatchData = {
           id: matchId,
           time: new Date(apiData.fixture.date).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' }),
@@ -101,6 +137,7 @@ export function useFetchMatch(matchId: string) {
             coach: homeLineupData.coach.name,
             lineup: homeLineupData.startXI.map(formatPlayer),
             subs: homeLineupData.substitutes.map(formatPlayer),
+            scorers: homeScorers,
           },
           awayTeam: {
             name: apiData.teams.away.name,
@@ -110,6 +147,7 @@ export function useFetchMatch(matchId: string) {
             coach: awayLineupData.coach.name,
             lineup: awayLineupData.startXI.map(formatPlayer),
             subs: awayLineupData.substitutes.map(formatPlayer),
+            scorers: awayScorers,
           },
           stats: transformedStats.length > 0 ? transformedStats : undefined, 
         };

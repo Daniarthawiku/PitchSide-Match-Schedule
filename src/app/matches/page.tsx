@@ -185,7 +185,6 @@ export default function MatchesPage() {
                <MatchNode key={`r16-${i}`} match={roundOf16[i + 4]} />
             ))}
           </div>
-
         </div>
       </div>
     </div>

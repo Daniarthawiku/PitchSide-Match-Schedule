@@ -35,7 +35,7 @@ export function MatchCard({ match }: { match: MatchData }) {
         border-b border-white/10 uppercase tracking-wider">
           <span>{match.time} WIB</span>
           <span>{match.round}</span>
-          <span className="truncate ml-2 text-right">{match.stadium}</span>
+          <span className="truncate ml-2 text-right flex-wrap">{match.stadium}</span>
         </div>
         
         {/* teamlist & score */}

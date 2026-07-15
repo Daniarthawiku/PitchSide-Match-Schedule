@@ -41,11 +41,7 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
   ];
   
   return (
-    <div className="relative w-full h-full overflow-x-hidden no-scrollbar pt-2 px-20">
-      <div 
-        className={`fixed inset-0 z-[-1] bg-from-[#0802A3] via-[#83279A] to-[#FF4B91] transition-colors duration-1000`} 
-      />
-      
+    <div className="relative w-full h-full overflow-x-hidden no-scrollbar pt-2 px-20 ">
       {/* TOP NAVIGATION & TABS */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <Link href="/" className="flex items-center text-white/80 hover:text-white transition group">
@@ -108,6 +104,31 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
              <span className="font-bold text-[#F5F2FF] text-lg tracking-widest uppercase text-center">{match.awayTeam.name}</span>
           </div>
         </div>
+
+        {/* list goal*/}
+        <div className="flex flex-row flex justify-between">
+          {/* home list goal*/}
+          <div className="flex flex-row items-right gap-1 mt-1 flex-wrap w-[200px]">
+            {match.homeTeam.scorers?.map((goal, idx) => (
+              <span key={idx} className="text-[#F5F2FF]/80 text-[12px] font-medium tracking-wider flex items-center gap-1">
+                {goal.playerName} {goal.elapsed}'{goal.extra ? `+${goal.extra}` : ""}
+                {goal.detail === "Penalty" && <span className="text-[#FF2400] text-[10px]">(P)</span>}
+                {goal.detail === "Own Goal" && <span className="text-[#880808] text-[10px]">(OG)</span>}
+              </span>
+              ))}
+          </div>
+          <div className="invisible"></div>
+        {/* away list goal*/}
+          <div className="flex flex-row items-left gap-1 mt-1 flex-wrap w-[200px]">
+            {match.awayTeam.scorers?.map((goal, idx) => (
+              <span key={idx} className="text-[#F5F2FF]/80 text-[12px] font-medium tracking-wider flex items-center gap-1">
+                   {goal.playerName} {goal.elapsed}'{goal.extra ? `+${goal.extra}` : ""}
+                   {goal.detail === "Penalty" && <span className="text-[#FF2400] text-[10px]">(P)</span>}
+                   {goal.detail === "Own Goal" && <span className="text-[#880808] text-[10px]">(OG)</span>}
+                 </span>
+               ))}
+          </div>  
+        </div>
       </div>
 
       {/* CONTENT AREA */}
@@ -129,14 +150,14 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
                 {/* home bar */}
                 <div className="w-1/2 h-full bg-black/40 rounded-l-full flex justify-end overflow-hidden">
                   <div 
-                    className="h-full bg-[#39ff14] rounded-l-full transition-all duration-1000 ease-out" 
+                    className="h-full bg-[#FFA400] rounded-l-full transition-all duration-1000 ease-out" 
                     style={{ width: getBarWidth(stat.home, stat.away, true) }}
                   ></div>
                 </div>
                 {/* away bar */}
                 <div className="w-1/2 h-full bg-black/40 rounded-r-full flex justify-start overflow-hidden">
                   <div 
-                    className="h-full bg-[#EC577D] rounded-r-full transition-all duration-1000 ease-out" 
+                    className="h-full bg-[#EB177D] rounded-r-full transition-all duration-1000 ease-out" 
                     style={{ width: getBarWidth(stat.home, stat.away, false) }}
                   ></div>
                 </div>
@@ -160,7 +181,7 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
                     <span className="text-[#F5F2FF] font-bold w-6">{player.num}</span>
                     <span className="text-[#F5F2FF] font-medium">{player.name}</span>
                   </div> 
-                  <span className="text-[#39ff14] font-bold tracking-wider">{player.pos}</span>
+                  <span className="text-[#FFA400] font-bold tracking-wider">{player.pos}</span>
                 </div>
               ))}
             </div>
@@ -188,12 +209,15 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
                 return (
                   <div 
                     key={`home-${idx}`} 
-                    className="absolute w-7 h-7 bg-[#39ff14] border-2 border-green-800 rounded-full flex justify-center items-center text-[11px] text-black font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform hover:scale-125 z-10 group"
+                    className="absolute w-7 h-7 bg-[#FFA400] border-2 border-[#FD7400] rounded-full flex justify-center items-center text-[11px] text-black font-bold 
+                    shadow-[0_4px_10px_rgba(0,0,0,0.3)] transform -translate-x-1/2 -translate-y-1/2 cursor-pointer
+                    transition-transform hover:scale-125 z-10 group"
                     style={{ left: leftPos, top: topPos }}
                   >
                     {player.num}
                     {/* tooltip */}
-                    <div className="absolute bottom-full mb-1 hidden group-hover:block w-max max-w-[120px] text-center bg-black/90 text-white text-[10px] px-2 py-1 rounded border border-white/20 z-20">
+                    <div className="absolute bottom-full mb-1 hidden group-hover:block w-max max-w-[120px] text-center bg-black/90 
+                    text-white text-[10px] px-2 py-1 rounded border border-white/20 z-20">
                       {player.name}
                     </div>
                   </div>
@@ -211,12 +235,15 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
                 return (
                   <div 
                     key={`away-${idx}`} 
-                    className="absolute w-7 h-7 bg-[#EC577D] border-2 border-pink-900 rounded-full flex justify-center items-center text-[11px] text-white font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] transform translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform hover:scale-125 z-10 group"
+                    className="absolute w-7 h-7 bg-[#EB177D] border-2 border-[#EF577D] rounded-full flex justify-center items-center 
+                    text-[11px] text-white font-bold shadow-[0_4px_10px_rgba(0,0,0,0.3)] transform translate-x-1/2 -translate-y-1/2 
+                    cursor-pointer transition-transform hover:scale-125 z-10 group"
                     style={{ right: rightPos, top: topPos }}
                   >
                     {player.num}
                     {/* tooltip */}
-                    <div className="absolute bottom-full mb-1 hidden group-hover:block w-max max-w-[120px] text-center bg-black/90 text-white text-[10px] px-2 py-1 rounded border border-white/20 z-20">
+                    <div className="absolute bottom-full mb-1 hidden group-hover:block w-max max-w-[120px] text-center bg-black/90 text-white 
+                    text-[10px] px-2 py-1 rounded border border-white/20 z-20">
                       {player.name}
                     </div>
                   </div>
@@ -238,7 +265,7 @@ export default function MatchInfo({ params }: { params: Promise<{ id: string }>}
                     <span className="text-[#F5F2FF] font-bold w-6">{player.num}</span>
                     <span className="text-[#F5F2FF] font-medium">{player.name}</span>
                   </div> 
-                  <span className="text-[#39ff14] font-bold tracking-wider">{player.pos}</span>
+                  <span className="text-[#EB177D] font-bold tracking-wider">{player.pos}</span>
                 </div>
               ))}
             </div>
