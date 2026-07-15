@@ -33,6 +33,7 @@ export function LiveMatchHero({ match }: { match: MatchData }) {
       duration-300 group-hover:scale-[1.01]">
         
         <div className="flex justify-between items-center mb-6">
+          {/* sementara dimatiin karena gaada live match & upcoming */}
           {/* {match.status === "live" ? (
             <div className="bg-[#39ff14] animate-pulse text-[12px] text-black font-bold px-3 py-1 rounded-full shadow-[0_0_10px_rgba(57,255,20,0.5)]">
               • LIVE
@@ -47,7 +48,7 @@ export function LiveMatchHero({ match }: { match: MatchData }) {
             </div>
           )} */}
           <div className="bg-[#39ff14] animate-pulse text-xs font-bold px-3 py-1
-           rounded-full shadow-[0_0_10px_rgba(57,255,20,0.5)]">
+          rounded-full shadow-[0_0_10px_rgba(57,255,20,0.5)]">
             • LIVE 76'
           </div>
           <div className="text-white/80 font-medium text-[16px] text-right">{match.round}</div>
@@ -59,7 +60,7 @@ export function LiveMatchHero({ match }: { match: MatchData }) {
           <div className="flex flex-col items-center gap-3 w-24">
             <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 border-2 
             border-white/50 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-sm p-3">
-               <Image src={match.homeTeam.flagUrl} alt={match.homeTeam.name} fill sizes="80px" className="object-contain p-2" />
+              <Image src={match.homeTeam.flagUrl} alt={match.homeTeam.name} fill sizes="80px" className="object-contain p-2" />
             </div>
             <span className="font-bold text-white tracking-widest text-lg md:text-xl">{getShortName(match.homeTeam.name)}</span>
           </div>
@@ -72,7 +73,7 @@ export function LiveMatchHero({ match }: { match: MatchData }) {
                 <span className="text-[20px] ml-2">({match.homeTeam.penaltyScore})</span>
               )}
             </span>
-             
+            
             <span className="text-white/50 text-4xl md:text-6xl mx-2">-</span>
 
             <span className={isAwayWinner ? "text-[#39ff14]" : "text-white"}>
@@ -86,7 +87,7 @@ export function LiveMatchHero({ match }: { match: MatchData }) {
           {/* away Team */}
           <div className="flex flex-col items-center gap-3 w-24">
             <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10
-             border-2 border-white/50 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-sm p-3">
+            border-2 border-white/50 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-sm p-3">
               <Image src={match.awayTeam.flagUrl} alt={match.awayTeam.name} fill sizes="80px" className="object-contain p-2" />
             </div>
             <span className="font-bold text-white tracking-widest text-lg md:text-xl">{getShortName(match.awayTeam.name)}</span>

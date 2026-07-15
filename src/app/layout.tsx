@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={ibmSans.className}>
         <div className="flex flex-col h-screen overflow-hidden">
-          {/* Top Header */}
+          {/* top header */}
           <header className="flex justify-between items-center bg-[#0a0f18]/50 
           backdrop-blur-sm border-b border-white/10 z-10 px-24 py-2">
             <Link href={"/"}> 
@@ -40,14 +40,14 @@ export default function RootLayout({
             </div>
           </header>
 
-          {/* Main Layout Area */}
+          {/* main layout area */}
           <div className="flex flex-1 overflow-hidden">
-            {/* Floating Left Sidebar */}
+            {/* floating left sidebar */}
             <SidebarProvider>
               <AppSidebar />
             </SidebarProvider>
 
-            {/* Dynamic Content */}
+            {/* dynamic content */}
             <main className="flex-1 overflow-y-auto md:p-4">
               {children}
             </main>

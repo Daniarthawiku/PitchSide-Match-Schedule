@@ -88,7 +88,7 @@ export function useFetchMatch(matchId: string) {
         if (apiData.statistics && apiData.statistics.length === 2) {
           const homeStats = apiData.statistics[0].statistics;
           const awayStats = apiData.statistics[1].statistics;
-     
+    
           transformedStats = homeStats.map((stat: any, index: number) => ({
             type: stat.type,
             home: stat.value !== null ? stat.value : 0, 

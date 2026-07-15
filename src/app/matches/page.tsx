@@ -133,14 +133,14 @@ export default function MatchesPage() {
           {/* round of 16 */}
           <div className="flex flex-col gap-[4.5rem]">
             {Array.from({ length: 4 }).map((_, i) => (
-               <MatchNode key={`l16-${i}`} match={roundOf16[i]} />
+              <MatchNode key={`l16-${i}`} match={roundOf16[i]} />
             ))}
           </div>
 
           {/* quarter final */}
           <div className="flex flex-col gap-[12.5rem]">
             {Array.from({ length: 2 }).map((_, i) => (
-               <MatchNode key={`lqf-${i}`} match={quarterFinals[i]} />
+              <MatchNode key={`lqf-${i}`} match={quarterFinals[i]} />
             ))}
           </div>
 
@@ -160,7 +160,7 @@ export default function MatchesPage() {
             
             {/* glow effect */}
             <div className="relative p-1 bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-500 rounded-xl shadow-[0_0_20px_rgba(252,211,77,0.5)]">
-               <MatchNode match={finalMatch} />
+              <MatchNode match={finalMatch} />
             </div>
             <span className="mt-4 font-black tracking-widest text-yellow-400 uppercase drop-shadow-md">Final</span>
           </div>
@@ -175,14 +175,14 @@ export default function MatchesPage() {
           {/* quarter final */}
           <div className="flex flex-col gap-[12.5rem]">
             {Array.from({ length: 2 }).map((_, i) => (
-               <MatchNode key={`rqf-${i}`} match={quarterFinals[i + 2]} />
+              <MatchNode key={`rqf-${i}`} match={quarterFinals[i + 2]} />
             ))}
           </div>
 
           {/* round of 16 */}
           <div className="flex flex-col gap-[4.5rem]">
             {Array.from({ length: 4 }).map((_, i) => (
-               <MatchNode key={`r16-${i}`} match={roundOf16[i + 4]} />
+              <MatchNode key={`r16-${i}`} match={roundOf16[i + 4]} />
             ))}
           </div>
         </div>

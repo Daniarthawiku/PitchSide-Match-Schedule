@@ -9,7 +9,7 @@ Currently configured to track the intense moments of the **World Cup 2022**.
 ## ✨ Key Features
 
 * **🏆 Interactive Knockout Bracket:** A visual, draggable tournament bracket showcasing the road to the final.
-* **⏱️ Real-Time Match Status:** Dynamic score updates, live minute tracking.
+* **⏱️ Real-Time Match Status:** Dynamic score updates, live minute tracking, and precise goalscorer events (including penalties and own goals).
 * **📊 Comparative Match Analytics:** Auto-calculating horizontal bar chart dashboard for team statistics (possession, shots, passes, cards, etc.).
 * **🗺️ Dynamic Tactical Setup:** An automated visual football pitch that renders starting XI formations using X/Y grid coordinates directly from the API.
 
@@ -64,12 +64,7 @@ pitchside-web
 ├─ package.json
 ├─ postcss.config.mjs
 ├─ public
-│  ├─ 404Handler.jpg
-│  ├─ file.svg
-│  ├─ globe.svg
-│  ├─ next.svg
-│  ├─ vercel.svg
-│  └─ window.svg
+│  └─ 404Handler.jpg
 ├─ README.md
 ├─ src
 │  ├─ app
@@ -87,6 +82,10 @@ pitchside-web
 │  │  ├─ AppSidebar.tsx
 │  │  ├─ atoms
 │  │  │  └─ TeamBadge.tsx
+│  │  ├─ match-info
+│  │  │  ├─ MatchHeroCard.tsx
+│  │  │  ├─ MatchLineupTab.tsx
+│  │  │  └─ MatchStatsTab.tsx
 │  │  ├─ molecules
 │  │  │  └─ MatchCard.tsx
 │  │  ├─ organism
@@ -107,8 +106,9 @@ pitchside-web
 │  └─ lib
 │     └─ utils.ts
 └─ tsconfig.json
+
 ```
 
 💡 Developer Note
 1. API Rate Limiting: This application relies on the free tier of API-Football (100 requests/day). A custom tracking system has been injected into the data-fetching hooks to monitor x-ratelimit-requests-remaining via the response headers. Check your browser console to monitor your daily quota during development!
-2. real-time match statistics: its only simulation of a real-time match. Why? cause the real-time match for World Cup 2026 only for a pro plan so i use the world cup 2022 data instead
+2. Real-time match statistics: its only simulation of a real-time match. Why? cause the real-time match for World Cup 2026 only for a pro plan so i use the world cup 2022 data instead

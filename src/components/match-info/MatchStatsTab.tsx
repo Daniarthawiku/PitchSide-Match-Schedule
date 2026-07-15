@@ -39,12 +39,12 @@ export function MatchStatsTab({ match }: MatchStatsTabProps) {
                     style={{ width: getBarWidth(stat.home, stat.away, true) }}>    
                     </div>
                 </div>
-            <div className="w-1/2 h-full bg-black/40 rounded-r-full flex justify-start overflow-hidden">
-                <div className="h-full bg-[#EB177D] rounded-r-full transition-all duration-1000 ease-out" 
-                style={{ width: getBarWidth(stat.home, stat.away, false) }}>
+                <div className="w-1/2 h-full bg-black/40 rounded-r-full flex justify-start overflow-hidden">
+                    <div className="h-full bg-[#EB177D] rounded-r-full transition-all duration-1000 ease-out" 
+                    style={{ width: getBarWidth(stat.home, stat.away, false) }}>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
         ))}
     </div>
